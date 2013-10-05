@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, user-scalable=no">
+		<meta charset="utf-8">
+		<meta name="keywords" content="等位系统" />
+		<meta name="description" content="等位系统" />
+		<title>等位系统</title>
+		<link rel="stylesheet" href="css/public.css" type="text/css" media="screen" />
+		<style type="text/css">
+			.top{height: 1%;background: #14b9d6;-webkit-box-shadow:0 1px 3px #323a45;-moz-box-shadow:0 1px 3px #323a45;box-shadow:0 1px 3px #323a45;}
+
+			.main{margin-top: 20%;margin-bottom: 10%;}
+			.main .form{width: 50%;margin: 0 auto ;}
+			.main .form p{margin: 0.5em 0;height: 3em;}
+			.main .form .type{text-align: left;}
+			.main .form label{width: 24%;padding-right: 1%;display: inline-block;text-align:right;font-size: 1.3em;}
+			.main .form select{width: 70%;height: 2.5em;line-height: 2.5;}
+			.main .form .password{width: 70%;height: 2.5em;line-height: 2.5em;text-align: left;border: 1px solid #cccccc;}
+			.main .form .commit{width: 70%;cursor:pointer;font-size: 1.3em;color:#ffffff;height: 2.5em;line-height: 2.5em;text-align: center;background: #f27935;-webkit-box-shadow:1px 1px 3px #323a45;-moz-box-shadow:1px 1px 3px #323a45;box-shadow:1px 1px 3px #323a45;}
+			
+		</style>
+	</head>
+	<body>
+		<div class="top"></div>
+
+		<div class="main">
+			<div class="form">
+				<form method="post" action="../index1.php" id="s">
+					<p>
+						<label>选择店</label>
+						<select name="branch_id" id="branch_id">
+							<!--<option value="10">牡丹园店</option>
+							<option value="11">龙德广场店</option>
+							<option value="12">王府井店</option>
+							<option value="13">徐家汇店</option>-->
+						</select>
+					</p>
+					<p>
+						<label>输入密码</label>
+						<input class="password" type="password" id="psw" name="psw">
+					</p>
+					<p>
+						<label>选择进入</label>
+						<label class="type"><input type="radio"  name="type" value="jiaohao" checked="checked" />叫号页面</label>
+						<input type="radio" name="type" value="play" /><label class="type">大屏播放</label>
+					</p>
+					<p>
+                   		<label></label><input class="commit" type="submit" value="进入">
+                    </p>
+				</form>
+			</div>
+		</div>
+
+		<div class="footer"></div>
+	</body>
+
+	<script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+</html>

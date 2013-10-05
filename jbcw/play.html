@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, user-scalable=no">
+		<meta charset="utf-8">
+		<meta name="keywords" content="等位系统" />
+		<meta name="description" content="等位系统" />
+		<title>等位系统</title>
+		<link rel="stylesheet" href="css/public.css" type="text/css" media="screen" />
+		<style type="text/css">
+			.top{height: 0.2em;background: #14b9d6;-webkit-box-shadow:0 1px 3px #323a45;-moz-box-shadow:0 1px 3px #323a45;box-shadow:0 1px 3px #323a45;}
+			.main{}
+			.main .video_area{float:left;width: 74%;}
+			.main .player{width: 100%;height:700px;background: #000;}
+
+			.main .info{float:right;width: 26%;background: #323a45;color: #FFFFFF; padding: 14px 0 3em;height: 650px; }
+			.main .info .title{font-size: 3em;text-align: center;margin-bottom: 0.3em;}
+			.main .info .token{font-size:1.4em;text-align: center;padding-bottom: 0.3em;}
+			.main .info .token b{font-size: 1.8em;padding-left: 3%;color: #e83123;text-shadow:0.05em 0.05em 0.1em #292929;}
+			.main .info .list{margin-top: 2em;}
+			.main .info .item{width: 90%;font-size:1.5em;padding-left: 5%;}
+			.main .info .list_title{margin-bottom: 0.5em;font-size: 1.8em;}
+			.main .info .item span{width: 30%;display: inline-block;text-align: left;margin-top: 0.8em;}
+			.main .info .file_wrap{position:relative;width: 100%;height:1em;border-top:0.4em solid #0f8aa0;overflow: hidden;cursor: pointer;}
+			.main .info .file_select{position:absolute;left: -20%;top:0;cursor: pointer;width: 200%;height: 110%;opacity: 0;filter:alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";}
+		</style>
+	</head>
+	<body>
+		<div class="top"></div>
+
+		<div class="main clear">
+			<div class="video_area">
+				<div id="video" class="player">
+					<!--<video src="./video.mp4" width="100%" height="100%" controls preload></video>-->
+				</div>
+			</div>
+			<div class="info">
+				<h1 class="title" id="name">--</h1>
+				<p class="token">当前验证码:<b id="token">--</b></p>
+				<div class="file_wrap">
+					<form name="form1" id="form1">
+						<input  class="file_select" type="file" name="fileBrowser" multiple="multiple"  onchange="readFile(this)" />  
+					</form>
+				</div>
+				<div class="list">
+					<div class="item list_title"><span>桌型</span><span>人数</span><span class="next">下一位</span></div>
+					<div id="submenu">
+						<ul>
+							<!--<li class="item"><span>大桌</span><span>120</span><span>S007</span></li>-->
+						</ul>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="footer"></div>
+	</body>
+	<script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+	<script type="text/javascript" src="js/play.js"></script>
+	<script src="./ckplayer/ckplayer.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			Play.init();
+			/*if(!Common.getCookie('branch_id')){
+				document.location.href = "../";
+			}*/
+		});
+
+	</script>
+
+<script type="text/javascript" src="./ckplayer/ckplayer.js" charset="utf-8"></script>
+<script type="text/javascript" src="./ckplayer/swfobject.js" charset="utf-8"></script>
+<script type="text/javascript">
+	var nowvolume = 50; //默认音量
+	function ckplayer_status(str) { //该类用来获取状态返回的值,该演示中主要用来记录音量
+		if (str.length < 4 && parseInt(str) >= 0 && parseInt(str) <= 100) { //如果返回的字符为0-100则记录下来
+			nowvolume = parseInt(str);
+		}
+	}
+	var dqbh = 0;//当前应该播放的视频索引，默认是0
+	var flvurl = new Array();//新建一个数组来存视频地址，添加方法就像下面一样
+	/*flvurl[0] = 'ftp://127.0.0.1/TDDOWNLOAD/[迅雷下载www.2tu.cc]蜡笔小新新番[第784话].mp4';
+	flvurl[1] = 'http://movie.ks.js.cn/flv/2012/02/6-1.flv';
+	flvurl[2] = 'http://movie.ks.js.cn/flv/2011/11/8-1.flv';*/
+	var flashvars=new Object();
+	var params={bgcolor:'#000000',allowFullScreen:true,allowScriptAccess:'always'};//这里定义播放器的其它参数如背景色（跟flashvars中的b不同），是否支持全屏，是否支持交互
+	var attributes={id:'ckplayer_a1',name:'ckplayer_a1'};
+	function playerstop() {//把视频的播放代码封装到一个类中，这个类的名称是接受播放完的的类，具体可查看说明文档里关于ckplayer_endstatus=0的使用方法
+		document.getElementById('video').innerHTML='<div id="a1"></div>';//重置一下容器video
+		flashvars={
+		f:flvurl[dqbh],//视频地址
+		c:'0',//是否读取文本配置,0不是，1是
+		e:0,//视频结束后的动作，0是调用js函数，1是循环播放，2是暂停播放，3是调用视频推荐列表的插件
+		v:nowvolume,//默认音量，0-100之间
+		p:'1',//视频默认0是暂停，1是播放
+		b:'0x000'//播放器的背景色，如果不设置的话将默认透明
+		//调用播放器的所有参数列表结束
+		};
+		//下面一行是调用播放器了，括号里的参数含义：（播放器文件，要显示在的div容器，宽，高，需要flash的版本，当用户没有该版本的提示，加载初始化参数，加载设置参数如背景，加载attributes参数，主要用来设置播放器的id）
+		swfobject.embedSWF('ckplayer/ckplayer.swf', 'a1', '100%', '100%', '9.0.0','ckplayer/expressInstall.swf', flashvars, params, attributes); //播放器地址，容器id，宽，高，需要flash插件的版本，flashvars,params,attributes	
+		//调用播放器结束
+		dqbh = dqbh + 1;//把正在播放的视频的索引+1得到下个视频的索引用来做循环播放
+		if (dqbh >= flvurl.length) {//如果下个要播放的视频的索引大于总的索引了，就从0重新开始播放，这里你也可以添换成别的，这样就可以做成播放完成后比如跳转到其它页面或执行其它你定义的动作如放广告
+		   dqbh = 0;
+		}
+	}
+	//playerstop();//默认页面加载的时候先运行一次播放当前索引为0的视频
+	function playload(str) {//这是点击视频名称的动作，把要播放的视频索引赋给当前要播放的视频索引然后调用播放类（也就是视频结束类）
+		dqbh = str;
+		playerstop();
+	}
+
+	function readFile(fileBrowser) {    
+		if (navigator.userAgent.indexOf("MSIE")!=-1){
+			var path = fileBrowser.value;  
+			if(path){
+				path_pre='http://127.0.0.1/';
+				path= path.replace(/\\/ig,'/'); 
+				path= path.replace(/:\//ig,'/');
+				path= path_pre + path;
+				var arr_path = path.split(',');
+				if(arr_path.length){
+					flvurl = arr_path;
+					playerstop();
+				}
+			}
+		}else{
+			alert('该功能只支持IE浏览器');
+		}
+		$('#form1').html('<input class="file_select" type="file" name="fileBrowser" multiple="multiple"  onchange="readFile(this)" />');
+	}    
+</script>
+
+</html>
